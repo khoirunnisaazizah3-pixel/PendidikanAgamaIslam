@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Pembelajaran PAI – Qada & Qadar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+  :root {
+    --biru-tua:   #1b3a5c;
+    --biru:       #2563a8;
+    --biru-muda:  #4a90d9;
+    --emas:       #c9922b;
+    --emas-muda:  #f5d78e;
+    --langit:     #e8f4fd;
+    --putih:      #ffffff;
+    --krem:       #f7f9fc;
+    --teks:       #1e2d3d;
+    --abu:        #6b7c8f;
+    --hijau:      #1a6b4a;
+    --hijau-bg:   #d4edda;
+    --merah:      #c0392b;
+    --merah-bg:   #f8d7da;
+    --ungu:       #6c3483;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--krem);
+    color: var(--teks);
+  }
+
+  /* ══ HEADER ══ */
+  header {
+    background: linear-gradient(160deg, #0d2744 0%, #1b3a5c 45%, #2563a8 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .header-inner {
+    position: relative; z-index: 1;
+    max-width: 860px; margin: 0 auto;
+    padding: 40px 20px 32px;
+    text-align: center;
+  }
+  .header-label {
+    display: inline-block;
+    background: rgba(201,146,43,0.25);
+    border: 1px solid rgba(201,146,43,0.5);
+    color: var(--emas-muda);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--putih);
+    margin-bottom: 6px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  }
+  header p { color: rgba(255,255,255,0.65); font-size: 0.9rem; }
+
+  .ayat-strip {
+    margin-top: 22px;
+    background: rgba(255,255,255,0.07);
+    border-top: 1px solid rgba(201,146,43,0.3);
+    border-bottom: 1px solid rgba(201,146,43,0.3);
+    padding: 14px 20px;
+  }
+  .ayat-arab {
+    font-family: 'Amiri', serif;
+    font-size: 1.35rem;
+    color: var(--emas-muda);
+    direction: rtl; text-align: right;
+    line-height: 2; margin-bottom: 6px;
+  }
+  .ayat-latin {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center; font-style: italic;
+  }
+
+  /* ══ NAV ══ */
+  nav {
+    background: var(--biru-tua);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.25);
+  }
+  .nav-inner {
+    max-width: 860px; margin: 0 auto;
+    display: flex; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1; min-width: 90px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem; font-weight: 700;
+    padding: 13px 8px;
+    cursor: pointer; text-align: center;
+    border-bottom: 3px solid transparent;
+    transition: all .22s;
+    white-space: nowrap;
+  }
+  .tab-btn .ico { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+  .tab-btn.on { color: var(--emas-muda); border-bottom-color: var(--emas); background: rgba(255,255,255,0.06); }
+  .tab-btn:hover:not(.on) { color: #fff; background: rgba(255,255,255,0.04); }
+
+  /* ══ MAIN ══ */
+  main {
+    max-width: 860px; margin: 0 auto;
+    padding: 28px 16px 70px;
+  }
+
+  .panel { display: none; animation: fadeUp .3s ease; }
+  .panel.on { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══ SECTION HEAD ══ */
+  .sec-head {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 22px;
+  }
+  .sec-icon {
+    width: 50px; height: 50px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--biru-tua), var(--biru));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 14px rgba(37,99,168,0.3);
+  }
+  .sec-head h2 { font-size: 1.3rem; color: var(--biru-tua); font-weight: 800; }
+  .sec-head p  { font-size: 0.82rem; color: var(--abu); margin-top: 2px; }
+
+  /* ══ CARDS ══ */
+  .card {
+    background: var(--putih);
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border-left: 5px solid var(--biru);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+  .card h3 { font-size: 1rem; color: var(--biru-tua); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .card p, .card li { font-size: 0.88rem; line-height: 1.7; color: var(--teks); }
+  .card ul { padding-left: 18px; }
+  .card li  { margin-bottom: 4px; }
+  .card.gold  { border-left-color: var(--emas); }
+  .card.green { border-left-color: var(--hijau); }
+  .card.purple{ border-left-color: var(--ungu); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:580px){ .grid2 { grid-template-columns: 1fr; } }
+
+  /* ══ ANALOGI BOX ══ */
+  .analogi {
+    background: linear-gradient(135deg, #e8f4fd, #f0f7ff);
+    border: 1.5px solid #b3d4f5;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .analogi-icon { font-size: 2rem; flex-shrink: 0; margin-top: 2px; }
+  .analogi h4 { font-size: 0.92rem; color: var(--biru-tua); font-weight: 800; margin-bottom: 4px; }
+  .analogi p  { font-size: 0.84rem; color: #3a5270; line-height: 1.6; }
+
+  /* ══ TAKDIR CARDS ══ */
+  .takdir-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  @media(max-width:560px){ .takdir-wrap { grid-template-columns: 1fr; } }
+  .takdir-card {
+    background: var(--putih);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform .2s;
+  }
+  .takdir-card:hover { transform: translateY(-3px); }
+  .takdir-head {
+    padding: 16px 18px 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .takdir-head.mubram { background: linear-gradient(135deg, #1b3a5c, #2563a8); }
+  .takdir-head.muallaq { background: linear-gradient(135deg, #1a5e34, #2d9c6e); }
+  .takdir-head h3 { color: var(--putih); font-size: 1rem; }
+  .takdir-head .badge {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 0.68rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    font-weight: 700;
+  }
+  .takdir-body { padding: 16px 18px; }
+  .takdir-body p { font-size: 0.84rem; color: var(--abu); margin-bottom: 10px; line-height: 1.5; }
+  .takdir-body li { font-size: 0.84rem; color: var(--teks); margin-bottom: 5px; }
+
+  /* ══ HIKMAH LIST ══ */
+  .hikmah-list { display: grid; gap: 13px; }
+  .hikmah-item {
+    background: var(--putih);
+    border-radius: 13px;
+    padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform .2s;
+  }
+  .hikmah-item:hover { transform: translateX(4px); }
+  .hikmah-ico {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--emas), #e6a93c);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .hikmah-item h4 { font-size: 0.93rem; color: var(--biru-tua); font-weight: 700; margin-bottom: 3px; }
+  .hikmah-item p  { font-size: 0.82rem; color: var(--abu); line-height: 1.6; }
+
+  /* ══ QUIZ ══ */
+  .quiz-progress {
+    background: var(--putih);
+    border-radius: 12px;
+    padding: 13px 18px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .prog-wrap { flex: 1; height: 8px; background: #dde8f5; border-radius: 4px; overflow: hidden; }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--biru-tua), var(--biru-muda));
+    border-radius: 4px; transition: width .4s ease;
+  }
+  .quiz-score { font-weight: 800; color: var(--biru-tua); font-size: 0.88rem; white-space: nowrap; }
+
+  .soal-box {
+    background: var(--putih);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    margin-bottom: 14px;
+  }
+  .soal-tag { font-size: 0.72rem; font-weight: 800; color: var(--abu); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .soal-q   { font-size: 1.02rem; font-weight: 700; color: var(--teks); line-height: 1.6; margin-bottom: 20px; }
+
+  .pilihan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:480px){ .pilihan-grid { grid-template-columns: 1fr; } }
+
+  .pilihan-btn {
+    padding: 12px 14px;
+    border-radius: 11px;
+    border: 2px solid #d4e3f5;
+    background: #eef5fd;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.86rem; font-weight: 600;
+    color: var(--teks);
+    cursor: pointer; text-align: left;
+    transition: all .2s;
+  }
+  .pilihan-btn:hover:not(:disabled) { border-color: var(--biru-muda); background: #dbeeff; transform: translateY(-1px); }
+  .pilihan-btn.benar { background: #d4edda; border-color: #28a745; color: #155724; }
+  .pilihan-btn.salah { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+  .pilihan-btn:disabled { cursor: not-allowed; }
+
+  .feedback {
+    border-radius: 11px; padding: 13px 16px;
+    margin-bottom: 14px; font-size: 0.88rem; font-weight: 600;
+    display: none; animation: fadeUp .3s ease;
+  }
+  .feedback.benar { background: #d4edda; color: #155724; border: 1.5px solid #28a745; }
+  .feedback.salah { background: #f8d7da; color: #721c24; border: 1.5px solid #dc3545; }
+
+  .btn-next {
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, var(--biru-tua), var(--biru));
+    color: var(--putih); border: none;
+    border-radius: 11px; font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem; font-weight: 800;
+    cursor: pointer; display: none;
+    transition: opacity .2s, transform .2s;
+    letter-spacing: .4px;
+  }
+  .btn-next:hover { opacity: .9; transform: translateY(-1px); }
+
+  .hasil-box {
+    background: linear-gradient(135deg, #0d2744, #1b3a5c);
+    border-radius: 20px; padding: 40px 28px;
+    text-align: center; color: var(--putih);
+    display: none; animation: fadeUp .5s ease;
+  }
+  .hasil-nilai { font-size: 4rem; font-weight: 900; color: var(--emas-muda); line-height: 1; margin: 14px 0 8px; }
+  .hasil-pred  { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+  .hasil-det   { font-size: 0.88rem; opacity: .8; margin-bottom: 24px; line-height: 1.7; }
+  .btn-ulang {
+    background: var(--emas); color: var(--putih);
+    border: none; border-radius: 11px;
+    padding: 12px 28px; font-family: 'Nunito', sans-serif;
+    font-size: .95rem; font-weight: 800;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .btn-ulang:hover { opacity: .9; }
+
+  /* ══ INFO BOX ══ */
+  .info-box {
+    background: linear-gradient(135deg, #e8f4fd, #f0f7ff);
+    border: 1.5px solid #b3d4f5;
+    border-radius: 12px; padding: 15px 18px;
+    margin-bottom: 16px;
+    font-size: 0.87rem; color: var(--biru-tua); line-height: 1.65;
+  }
+  .info-box strong { color: #0d2744; }
+
+  footer {
+    text-align: center; padding: 20px;
+    color: var(--abu); font-size: 0.76rem;
+    background: var(--putih);
+    border-top: 1px solid #dde8f5;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-label">Pendidikan Agama Islam · Kelas 6 SD</div>
+    <h1>Iman kepada Qada dan Qadar</h1>
+    <p>Memahami ketetapan Allah SWT dan peran ikhtiar manusia</p>
+    <div class="ayat-strip">
+      <div class="ayat-arab">إِنَّا كُلَّ شَيْءٍ خَلَقْنَاهُ بِقَدَرٍ</div>
+      <div class="ayat-latin">"Sesungguhnya Kami menciptakan segala sesuatu menurut ukuran (qadar)." — QS. Al-Qamar: 49</div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="tab-btn on" onclick="showPanel('pengertian', this)">
+      <span class="ico">📖</span>Pengertian
+    </button>
+    <button class="tab-btn" onclick="showPanel('takdir', this)">
+      <span class="ico">🌿</span>Jenis Takdir
+    </button>
+    <button class="tab-btn" onclick="showPanel('ikhtiar', this)">
+      <span class="ico">💪</span>Ikhtiar & Doa
+    </button>
+    <button class="tab-btn" onclick="showPanel('hikmah', this)">
+      <span class="ico">💡</span>Hikmah
+    </button>
+    <button class="tab-btn" onclick="showPanel('kuis', this)">
+      <span class="ico">🎯</span>Kuis
+    </button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ── PANEL: PENGERTIAN ── -->
+  <div id="panel-pengertian" class="panel on">
+    <div class="sec-head">
+      <div class="sec-icon">📖</div>
+      <div>
+        <h2>Apa itu Qada dan Qadar?</h2>
+        <p>Definisi menurut bahasa dan istilah syariat</p>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>🔤 Qada (القضاء)</h3>
+        <p><strong>Menurut bahasa:</strong> hukum atau ketetapan.</p>
+        <p style="margin-top:8px"><strong>Menurut istilah:</strong> Ketetapan Allah SWT sejak zaman <em>azali</em> (sebelum penciptaan) sesuai dengan kehendak-Nya terhadap seluruh makhluk.</p>
+      </div>
+      <div class="card gold">
+        <h3>🔤 Qadar (القدر)</h3>
+        <p><strong>Menurut bahasa:</strong> kepastian, ukuran, atau kadar.</p>
+        <p style="margin-top:8px"><strong>Menurut istilah:</strong> Perwujudan nyata dari Qada — yakni segala kejadian yang benar-benar terjadi di alam semesta.</p>
+      </div>
+    </div>
+
+    <div class="analogi">
+      <div class="analogi-icon">🏗️</div>
+      <div>
+        <h4>Analogi yang Mudah Dipahami</h4>
+        <p><strong>Qada</strong> ibarat <em>denah/cetak biru bangunan</em> yang sudah dirancang arsitek sejak awal. <strong>Qadar</strong> adalah <em>bangunan yang sudah berdiri</em> sesuai denah tersebut. Qada adalah rencana, Qadar adalah kenyataan.</p>
+      </div>
+    </div>
+
+    <div class="card purple">
+      <h3>🔢 Rukun Iman ke-6</h3>
+      <p>Beriman kepada Qada dan Qadar adalah <strong>Rukun Iman yang ke-6</strong>. Rasulullah SAW bersabda:</p>
+      <p style="margin-top:10px; font-style:italic; color:#5a3a7a;">"Iman adalah engkau percaya kepada Allah, malaikat-Nya, kitab-kitab-Nya, rasul-rasul-Nya, hari akhir, dan engkau percaya kepada takdir yang baik maupun yang buruk." <strong>(HR. Muslim)</strong></p>
+    </div>
+
+    <div class="info-box">
+      💡 <strong>Ingat:</strong> Percaya kepada takdir bukan berarti pasrah tanpa usaha. Islam mengajarkan keseimbangan antara <strong>iman kepada takdir</strong> + <strong>ikhtiar (usaha)</strong> + <strong>doa</strong> + <strong>tawakal</strong>.
+    </div>
+  </div>
+
+  <!-- ── PANEL: TAKDIR ── -->
+  <div id="panel-takdir" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon">🌿</div>
+      <div>
+        <h2>Jenis-Jenis Takdir</h2>
+        <p>Takdir Mubram dan Takdir Muallaq</p>
+      </div>
+    </div>
+
+    <div class="takdir-wrap">
+      <div class="takdir-card">
+        <div class="takdir-head mubram">
+          <span style="font-size:1.4rem">🔒</span>
+          <h3>Takdir Mubram</h3>
+          <span class="badge">TETAP</span>
+        </div>
+        <div class="takdir-body">
+          <p>Takdir yang <strong>sudah pasti dan tidak dapat diubah</strong> oleh siapapun, hanya Allah yang berkuasa atasnya.</p>
+          <ul>
+            <li>⚰️ Kematian setiap makhluk</li>
+            <li>⚧ Jenis kelamin saat lahir</li>
+            <li>🌍 Suku bangsa dan asal-usul</li>
+            <li>🌅 Terbitnya matahari dari timur</li>
+            <li>📅 Hari Kiamat</li>
+          </ul>
+        </div>
+      </div>
+      <div class="takdir-card">
+        <div class="takdir-head muallaq">
+          <span style="font-size:1.4rem">🔓</span>
+          <h3>Takdir Muallaq</h3>
+          <span class="badge">BISA BERUBAH</span>
+        </div>
+        <div class="takdir-body">
+          <p>Takdir yang <strong>dapat berubah</strong> melalui <em>ikhtiar</em> (usaha keras) dan doa kepada Allah SWT.</p>
+          <ul>
+            <li>📚 Menjadi pandai karena rajin belajar</li>
+            <li>🏆 Menjadi juara karena tekun berlatih</li>
+            <li>💼 Meraih sukses karena bekerja keras</li>
+            <li>🏥 Menjadi sehat karena pola hidup baik</li>
+            <li>😊 Bahagia karena selalu bersyukur</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <h3>📖 Dalil Takdir Muallaq</h3>
+      <p style="font-style:italic; margin-bottom:8px;">"Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum hingga mereka mengubah keadaan mereka sendiri." <strong>(QS. Ar-Ra'd: 11)</strong></p>
+      <p>Ayat ini menunjukkan bahwa manusia memiliki peran aktif dalam mengubah nasibnya melalui usaha dan ikhtiar, dalam bingkai takdir Allah SWT.</p>
+    </div>
+
+    <div class="info-box">
+      🎯 <strong>Kunci Memahami Perbedaannya:</strong> Takdir Mubram tidak bisa diubah meski manusia berusaha sekeras apapun. Takdir Muallaq bisa berubah jika manusia mau berusaha, berdoa, dan bertawakal kepada Allah.
+    </div>
+  </div>
+
+  <!-- ── PANEL: IKHTIAR ── -->
+  <div id="panel-ikhtiar" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon">💪</div>
+      <div>
+        <h2>Ikhtiar, Doa & Tawakal</h2>
+        <p>Tiga kunci menyikapi takdir dengan bijak</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      📢 Rasulullah SAW bersabda: <strong>"Ikatlah untamu, kemudian bertawakallah kepada Allah."</strong> (HR. Tirmidzi) — Hadits ini mengajarkan bahwa usaha dan tawakal harus berjalan bersama.
+    </div>
+
+    <div style="display:grid; gap:14px; margin-bottom:18px;">
+      <div class="card">
+        <h3>💪 1. Ikhtiar (Berusaha)</h3>
+        <p>Ikhtiar adalah usaha sungguh-sungguh yang dilakukan manusia untuk mencapai tujuan. Islam <strong>mewajibkan</strong> setiap Muslim untuk berikhtiar, karena Islam tidak mengajarkan pasrah tanpa usaha.</p>
+        <ul style="margin-top:10px">
+          <li>Ingin pandai → rajin belajar</li>
+          <li>Ingin sehat → menjaga pola makan & olahraga</li>
+          <li>Ingin sukses → bekerja keras dan jujur</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <h3>🤲 2. Doa (Memohon kepada Allah)</h3>
+        <p>Doa adalah senjata orang beriman. Allah SWT berfirman: <em>"Berdoalah kepada-Ku, niscaya Aku kabulkan."</em> (QS. Al-Mukmin: 60). Doa melengkapi ikhtiar dan menjadi bentuk penghambaan diri kepada Allah.</p>
+      </div>
+      <div class="card green">
+        <h3>🕊️ 3. Tawakal (Menyerahkan Hasil kepada Allah)</h3>
+        <p>Setelah berikhtiar dan berdoa, serahkan hasilnya kepada Allah dengan ikhlas. Tawakal bukan berarti malas, tetapi <strong>menerima apapun hasil dengan lapang dada</strong> karena yakin Allah memberikan yang terbaik.</p>
+      </div>
+    </div>
+
+    <div class="card purple">
+      <h3>🔄 Siklus Sikap Muslim dalam Menghadapi Takdir</h3>
+      <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:10px; text-align:center;">
+        <div style="background:#f0ebf8; border-radius:10px; padding:10px 16px; font-size:0.82rem; font-weight:700; color:var(--ungu);">💪 Ikhtiar</div>
+        <div style="font-size:1.2rem; display:flex; align-items:center;">→</div>
+        <div style="background:#f0ebf8; border-radius:10px; padding:10px 16px; font-size:0.82rem; font-weight:700; color:var(--ungu);">🤲 Doa</div>
+        <div style="font-size:1.2rem; display:flex; align-items:center;">→</div>
+        <div style="background:#f0ebf8; border-radius:10px; padding:10px 16px; font-size:0.82rem; font-weight:700; color:var(--ungu);">🕊️ Tawakal</div>
+        <div style="font-size:1.2rem; display:flex; align-items:center;">→</div>
+        <div style="background:#f0ebf8; border-radius:10px; padding:10px 16px; font-size:0.82rem; font-weight:700; color:var(--ungu);">😊 Ikhlas dengan Hasilnya</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: HIKMAH ── -->
+  <div id="panel-hikmah" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon">💡</div>
+      <div>
+        <h2>Hikmah Beriman kepada Qada & Qadar</h2>
+        <p>Manfaat meyakini takdir Allah dalam kehidupan</p>
+      </div>
+    </div>
+
+    <div class="hikmah-list">
+      <div class="hikmah-item">
+        <div class="hikmah-ico">🛡️</div>
+        <div>
+          <h4>Meningkatkan Ketakwaan kepada Allah</h4>
+          <p>Meyakini bahwa segala sesuatu atas izin Allah mendorong kita untuk selalu mendekatkan diri kepada-Nya dan tidak sombong atas pencapaian.</p>
+        </div>
+      </div>
+      <div class="hikmah-item">
+        <div class="hikmah-ico">⏳</div>
+        <div>
+          <h4>Melatih Kesabaran dalam Menghadapi Ujian</h4>
+          <p>Ketika tertimpa musibah, keimanan pada takdir membantu kita bersabar dan tidak mudah putus asa, karena percaya ada hikmah di balik setiap kejadian.</p>
+        </div>
+      </div>
+      <div class="hikmah-item">
+        <div class="hikmah-ico">🚀</div>
+        <div>
+          <h4>Mendorong Terus Berikhtiar dan Berdoa</h4>
+          <p>Percaya pada takdir muallaq memotivasi kita untuk terus berusaha, karena nasib bisa berubah dengan usaha dan doa yang sungguh-sungguh.</p>
+        </div>
+      </div>
+      <div class="hikmah-item">
+        <div class="hikmah-ico">🌈</div>
+        <div>
+          <h4>Tidak Mudah Putus Asa saat Gagal</h4>
+          <p>Orang yang beriman pada takdir tidak akan berputus asa, karena mereka tahu kegagalan hanyalah bagian dari perjalanan yang telah Allah tetapkan dengan penuh kasih sayang.</p>
+        </div>
+      </div>
+      <div class="hikmah-item">
+        <div class="hikmah-ico">😌</div>
+        <div>
+          <h4>Tidak Sombong saat Berhasil</h4>
+          <p>Keberhasilan diyakini sebagai karunia Allah, bukan semata hasil kerja keras sendiri, sehingga kita terhindar dari sifat sombong dan takabur.</p>
+        </div>
+      </div>
+      <div class="hikmah-item">
+        <div class="hikmah-ico">🤝</div>
+        <div>
+          <h4>Menumbuhkan Sikap Tawakal</h4>
+          <p>Setelah berusaha dan berdoa, kita menyerahkan hasilnya dengan ikhlas kepada Allah — inilah puncak keimanan seorang Muslim terhadap takdir.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: KUIS ── -->
+  <div id="panel-kuis" class="panel">
+    <div class="sec-head">
+      <div class="sec-icon">🎯</div>
+      <div>
+        <h2>Kuis Interaktif</h2>
+        <p>Uji pemahamanmu tentang Qada & Qadar!</p>
+      </div>
+    </div>
+
+    <div class="quiz-progress">
+      <span style="font-size:0.82rem; color:var(--abu); white-space:nowrap">Soal <span id="q-num">1</span>/8</span>
+      <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:12.5%"></div></div>
+      <span class="quiz-score">✅ <span id="q-score">0</span></span>
+    </div>
+
+    <div id="quiz-area">
+      <div class="soal-box">
+        <div class="soal-tag" id="q-tag">Pertanyaan 1 dari 8</div>
+        <div class="soal-q"  id="q-text"></div>
+        <div class="pilihan-grid" id="q-opts"></div>
+      </div>
+      <div class="feedback" id="q-fb"></div>
+      <button class="btn-next" id="btn-next" onclick="nextSoal()">Soal Berikutnya →</button>
+    </div>
+
+    <div class="hasil-box" id="hasil-box">
+      <div style="font-size:2.5rem">🏅</div>
+      <div style="font-size:1rem; opacity:.8; margin-top:6px">Hasil Kuis Kamu</div>
+      <div class="hasil-nilai" id="h-nilai"></div>
+      <div class="hasil-pred"  id="h-pred"></div>
+      <div class="hasil-det"   id="h-det"></div>
+      <button class="btn-ulang" onclick="resetKuis()">🔄 Coba Lagi</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>© Media Pembelajaran PAI – Iman kepada Qada dan Qadar | Materi Kelas 6 SD</footer>
+
+<script>
+  // ── Tab switching
+  function showPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+    document.getElementById('panel-' + id).classList.add('on');
+    btn.classList.add('on');
+    if (id === 'kuis') initKuis();
+  }
+
+  // ── Quiz data
+  const soalData = [
+    {
+      q: "Qada menurut istilah syariat adalah...",
+      opts: [
+        "Perwujudan nyata dari kejadian di alam semesta",
+        "Ketetapan Allah sejak zaman azali sesuai kehendak-Nya",
+        "Usaha manusia untuk mengubah nasibnya",
+        "Doa yang dipanjatkan oleh manusia"
+      ],
+      ans: 1,
+      info: "Qada adalah ketetapan Allah SWT sejak zaman azali, sedangkan Qadar adalah perwujudan nyatanya."
+    },
+    {
+      q: "Seorang siswa ingin menjadi juara kelas, lalu ia rajin belajar setiap hari. Ini adalah contoh dari...",
+      opts: ["Takdir Mubram", "Takdir Muallaq", "Takdir Mutlak", "Takdir Azali"],
+      ans: 1,
+      info: "Juara kelas bisa diraih dengan usaha (ikhtiar), sehingga termasuk Takdir Muallaq — takdir yang bisa berubah dengan ikhtiar dan doa."
+    },
+    {
+      q: "Beriman kepada Qada dan Qadar termasuk Rukun Iman yang ke...",
+      opts: ["4", "5", "6", "3"],
+      ans: 2,
+      info: "Iman kepada Qada dan Qadar adalah Rukun Iman yang ke-6, yang terakhir dari enam rukun iman."
+    },
+    {
+      q: "Contoh Takdir Mubram (tidak bisa diubah) adalah...",
+      opts: [
+        "Kepandaian seseorang",
+        "Kesehatan tubuh",
+        "Kematian setiap makhluk hidup",
+        "Keberhasilan dalam karier"
+      ],
+      ans: 2,
+      info: "Kematian adalah Takdir Mubram karena tidak bisa diundur atau dimajukan oleh siapapun, hanya Allah yang menentukan."
+    },
+    {
+      q: "Ayat 'Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum hingga mereka mengubah keadaan mereka sendiri' terdapat dalam...",
+      opts: ["QS. Al-Baqarah: 183", "QS. Al-Qamar: 49", "QS. Ar-Ra'd: 11", "QS. Al-Mukmin: 60"],
+      ans: 2,
+      info: "QS. Ar-Ra'd ayat 11 ini menegaskan pentingnya ikhtiar (usaha) dalam mengubah nasib, sebagai bentuk Takdir Muallaq."
+    },
+    {
+      q: "Setelah berikhtiar dan berdoa, seorang Muslim hendaknya...",
+      opts: [
+        "Terus merasa khawatir dan gelisah",
+        "Menyalahkan takdir jika gagal",
+        "Bertawakal — menyerahkan hasil kepada Allah dengan ikhlas",
+        "Berhenti berusaha dan menunggu takdir"
+      ],
+      ans: 2,
+      info: "Tawakal adalah menyerahkan hasil kepada Allah dengan ikhlas setelah berikhtiar dan berdoa. Ini bukan berarti malas atau pasrah tanpa usaha."
+    },
+    {
+      q: "Salah satu hikmah beriman kepada Qada dan Qadar adalah...",
+      opts: [
+        "Membuat manusia malas berusaha",
+        "Mendorong manusia tidak perlu berdoa",
+        "Melatih kesabaran saat menghadapi ujian",
+        "Menjadikan manusia sombong atas pencapaiannya"
+      ],
+      ans: 2,
+      info: "Iman kepada takdir menumbuhkan kesabaran karena kita percaya setiap ujian dari Allah mengandung hikmah dan kebaikan."
+    },
+    {
+      q: "Pernyataan yang BENAR tentang hubungan takdir dan ikhtiar adalah...",
+      opts: [
+        "Beriman pada takdir berarti tidak perlu berusaha",
+        "Islam mengajarkan keseimbangan antara iman pada takdir dan ikhtiar",
+        "Takdir tidak bisa dipengaruhi oleh doa manusia",
+        "Hanya Takdir Mubram yang berlaku bagi manusia"
+      ],
+      ans: 1,
+      info: "Islam mengajarkan keseimbangan: iman pada takdir + ikhtiar + doa + tawakal. Tidak boleh hanya pasrah tanpa berusaha."
+    }
+  ];
+
+  let qIdx = 0, skor = 0, terjawab = false;
+
+  function initKuis() {
+    qIdx = 0; skor = 0; terjawab = false;
+    document.getElementById('hasil-box').style.display = 'none';
+    document.getElementById('quiz-area').style.display = 'block';
+    renderSoal();
+  }
+
+  function renderSoal() {
+    terjawab = false;
+    const s = soalData[qIdx];
+    document.getElementById('q-num').textContent = qIdx + 1;
+    document.getElementById('q-tag').textContent = `Pertanyaan ${qIdx + 1} dari ${soalData.length}`;
+    document.getElementById('q-text').textContent = s.q;
+    document.getElementById('prog-fill').style.width = ((qIdx + 1) / soalData.length * 100) + '%';
+    document.getElementById('q-score').textContent = skor;
+
+    const grid = document.getElementById('q-opts');
+    grid.innerHTML = '';
+    s.opts.forEach((o, i) => {
+      const b = document.createElement('button');
+      b.className = 'pilihan-btn';
+      b.textContent = o;
+      b.onclick = () => pilihJawaban(i);
+      grid.appendChild(b);
+    });
+
+    const fb = document.getElementById('q-fb');
+    fb.style.display = 'none';
+    fb.className = 'feedback';
+    document.getElementById('btn-next').style.display = 'none';
+  }
+
+  function pilihJawaban(idx) {
+    if (terjawab) return;
+    terjawab = true;
+    const s = soalData[qIdx];
+    const btns = document.querySelectorAll('.pilihan-btn');
+    btns.forEach((b, i) => {
+      b.disabled = true;
+      if (i === s.ans) b.classList.add('benar');
+      else if (i === idx && idx !== s.ans) b.classList.add('salah');
+    });
+
+    const fb = document.getElementById('q-fb');
+    if (idx === s.ans) {
+      skor++;
+      document.getElementById('q-score').textContent = skor;
+      fb.className = 'feedback benar';
+      fb.innerHTML = '✅ <strong>Benar!</strong> ' + s.info;
+    } else {
+      fb.className = 'feedback salah';
+      fb.innerHTML = '❌ <strong>Kurang tepat.</strong> ' + s.info;
+    }
+    fb.style.display = 'block';
+
+    const nb = document.getElementById('btn-next');
+    nb.style.display = 'block';
+    nb.textContent = qIdx < soalData.length - 1 ? 'Soal Berikutnya →' : '🏅 Lihat Hasil';
+  }
+
+  function nextSoal() {
+    qIdx++;
+    if (qIdx < soalData.length) { renderSoal(); }
+    else { tampilHasil(); }
+  }
+
+  function tampilHasil() {
+    document.getElementById('quiz-area').style.display = 'none';
+    const hb = document.getElementById('hasil-box');
+    hb.style.display = 'block';
+    const nilai = Math.round(skor / soalData.length * 100);
+    document.getElementById('h-nilai').textContent = nilai;
+    let pred, det;
+    if (nilai >= 88)      { pred = '🌟 Masya Allah! Luar Biasa!';       det = `Kamu menjawab benar ${skor} dari ${soalData.length} soal. Pemahaman tentang Qada & Qadar kamu sangat baik!`; }
+    else if (nilai >= 63) { pred = '👍 Bagus! Terus Semangat!';          det = `Kamu menjawab benar ${skor} dari ${soalData.length} soal. Sudah cukup baik, pelajari lagi bagian yang belum tepat ya!`; }
+    else if (nilai >= 38) { pred = '📖 Lumayan, Yuk Pelajari Lagi!';     det = `Kamu menjawab benar ${skor} dari ${soalData.length} soal. Baca kembali materi di atas dan coba lagi!`; }
+    else                  { pred = '💪 Jangan Menyerah, Coba Lagi!';     det = `Kamu menjawab benar ${skor} dari ${soalData.length} soal. Pelajari materinya pelan-pelan, kamu pasti bisa!`; }
+    document.getElementById('h-pred').textContent = pred;
+    document.getElementById('h-det').textContent = det;
+  }
+
+  function resetKuis() { initKuis(); }
+
+  // init first question
+  renderSoal();
+</script>
+</body>
+</html>
